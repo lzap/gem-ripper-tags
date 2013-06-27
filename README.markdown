@@ -1,42 +1,49 @@
-RubyGems Automatic Ctags Invoker
-================================
+RubyGems Automatic Ctags Generator
+==================================
 
-Nary a day of Ruby development goes by where I don't run
-[`gem open`][gem-browse] or `bundle open`.  And when I go rooting around
-in a gem, I want tags.  As good as I've gotten at `ctags -R .`, I've
-grown weary of it.  So I wrote a RubyGems plugin to automatically invoke
-Ctags on gems as they are installed.
+If you do like Vim and Ctags like I or [Tim Pope][] do, you maybe appreciate
+automatic generation of ctags for each installed gem. This small project is
+based on Tim's [gem-ctags][], but the main difference is it does *not* use
+[Exuberant Ctags][].
 
-Installation
-------------
+Upstream site is at: https://github.com/lzap/gem-ripper-tags
 
-If you haven't already, install [Exuberant Ctags][] and make sure it
-comes first in `$PATH`.  With Homebrew, `brew install ctags`.  Now all
-that's left to do is install gem-ctags and perform a one-off indexing of
-the gems that are already installed:
+Usage
+-----
 
-    gem install gem-ctags
-    gem ctags
+Install the thing (only Ruby 1.9+):
+
+    gem install gem-ripper-tags
+
+Then generate tags for all already installed gems:
+
+    gem ripper
+
+Anytime you install a gem now, tags will be automatically created.
+
+    gem instal some_gem ...
 
 If you're using RVM, I recommend extending your global gemset by adding
-`gem-ctags` to `~/.rvm/gemsets/global.gems`.  Put it at the top so the
+`gem-ripper-tags` to `~/.rvm/gemsets/global.gems`.  Put it at the top so the
 gems below it will be indexed.
 
-Troubleshooting
----------------
+Motivation
+----------
 
-If you see
+Why would you care about not using ctags in the first place? Ctags is a great
+project and it does support many (like 50) languages. But Ruby support is very
+weak, the parser is not in good condition and it has not been changed 4 years
+now.
 
-    $ ctags -R
-    ctags: illegal option -- R
-    usage: ctags [-BFadtuwvx] [-f tagsfile] file ...
+ * Ctags doesn't deal with: module A::B
+ * Ctags doesn't tag (at least some of) the operator methods like ==
+ * Ctags doesn't support qualified tags, -type=+
+ * Ctags doesn't output tags for constants or attributes.
 
-you do not have the correct version of ctags in your path.
-
-Just add the following to your .bashrc and be happy:
-
-    export PATH=/usr/local/bin:$PATH
-    
+Unfortunately all the others (I found 2) Ruby ctags generators are either
+outdated (no Ruby 1.9+ support) or very slow. This project makes use of
+[ripper-tags][] that leverages built-in Ruby parser API called Ripper. It is
+fast and it works as expected.
 
 Vim Tips
 --------
@@ -58,23 +65,18 @@ all gems in your current RVM gemset (requires [pathogen.vim][]):
           \ pathogen#split(&tags) +
           \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
 
-I don't like to get crazy.
-
-Contributing
-------------
-
-Don't submit a pull request with [an ugly commit
-message](http://stopwritingramblingcommitmessages.com) or I will ignore
-your patch until I have the energy to politely explain my zero tolerance
-policy.
+Tim Pope doesn't like to get crazy. ;-)
 
 License
 -------
 
-Copyright (c) Tim Pope.  MIT License.
+Copyright (c) Tim Pope; Lukáš Zapletal. MIT License.
 
+[Tim Pope]: http://tpo.pe/
 [Exuberant Ctags]: http://ctags.sourceforge.net/
+[gem-ctags]: https://github.com/tpope/gem-ctags
 [gem-browse]: https://github.com/tpope/gem-browse
 [bundler.vim]: https://github.com/tpope/vim-bundler
 [pathogen.vim]: https://github.com/tpope/vim-pathogen
 [rake.vim]: https://github.com/tpope/vim-rake
+[ripper-tags]: https://github.com/tmm1/ripper-tags
