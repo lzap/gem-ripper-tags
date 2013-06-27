@@ -6,6 +6,6 @@ rescue LoadError
 end
 
 task :default do
-  require 'rubygems/commands/ctags_command'
-  Gem::Commands::CtagsCommand.new.execute
+  require 'rubygems/commands/ripper_tags_command'
+  Gem::Commands::RipperTagsCommand.new.execute
 end
