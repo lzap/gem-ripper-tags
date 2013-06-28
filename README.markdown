@@ -27,6 +27,9 @@ If you're using RVM, I recommend extending your global gemset by adding
 `gem-ripper-tags` to `~/.rvm/gemsets/global.gems`.  Put it at the top so the
 gems below it will be indexed.
 
+You can use the gem even with 1.8 gemsets, but since Ruby 1.8 is not
+supported, it will (silently) not register the gem hook.
+
 Motivation
 ----------
 
