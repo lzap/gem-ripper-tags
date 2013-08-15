@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "gem-ripper-tags"
-  s.version     = "1.0.2"
+  s.version     = `git describe --abbrev=0 --tags`
   s.authors     = ["Tim Pope", "Lukas Zapletal"]
   s.email       = ["code@tpop"+'e.net', "lzap+rpm@red"+'hat.com']
   s.homepage    = "https://github.com/lzap/gem-ripper-tags"

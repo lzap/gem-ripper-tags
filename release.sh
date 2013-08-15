@@ -5,5 +5,5 @@
 
 VERSION=$(git describe --abbrev=0 --tags)
 git checkout $VERSION && \
-gem build gem-ripper-tags-$VERSION.gem && \
-gem push gem-ripper-tags-$VERSION.gem && \
+gem build gem-ripper-tags.gemspec && \
+gem push gem-ripper-tags-$VERSION.gem
