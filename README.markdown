@@ -48,6 +48,26 @@ outdated (no Ruby 1.9+ support) or very slow. This project makes use of
 [ripper-tags][] that leverages built-in Ruby parser API called Ripper. It is
 fast and it works as expected.
 
+Regeneration
+------------
+
+If you want to regenerate all tagfiles from scratch, use:
+    
+    gem ripper_tags --reindex
+
+Emacs support
+-------------
+
+To support Emacs, you need two steps. First, reindex everything with Emacs
+enabled:
+
+    gem ripper_tags --reindex --emacs
+
+And make sure this environment variable is set to all shells where you use
+"gem install" command so new gems are generated with Emacs TAGS files.
+
+    RIPPER_TAGS_EMACS=1
+
 Vim Tips
 --------
 
