@@ -6,7 +6,7 @@ rescue LoadError => e
 end
 
 unless old_ruby
-  Gem::CommandManager.instance.register_command :ripper
+  Gem::CommandManager.instance.register_command :ripper_tags
 
   Gem.post_install do |installer|
     Gem::Commands::RipperTagsCommand.index(installer.spec)

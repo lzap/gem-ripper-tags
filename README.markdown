@@ -17,7 +17,7 @@ Install the thing (only Ruby 1.9+):
 
 Then generate tags for all already installed gems:
 
-    gem ripper
+    gem ripper_tags
 
 Anytime you install a gem now, tags will be automatically created.
 
