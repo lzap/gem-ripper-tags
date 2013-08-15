@@ -22,14 +22,12 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
     else
       Gem.source_index.gems.values
     end.each do |spec|
-      self.class.index(spec,
-                       options[:reindex],
-                       (options[:emacs] || ENV['RIPPER_TAGS_EMACS'])) do |message|
+      self.class.index(spec, options[:reindex], options[:emacs]) do |message|
         say message
       end
     end
   rescue Exception => e
-    if options[:debug]
+    if options[:debug] || ENV['RIPPER_TAGS_DEBUG']
       puts e.message
       puts e.backtrace.join("\n")
     end
