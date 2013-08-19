@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.email       = ["code@tpop"+'e.net', "lzap+rpm@red"+'hat.com']
   s.homepage    = "https://github.com/lzap/gem-ripper-tags"
   s.summary     = %q{fast and accurate ctags generator on gem install}
+  s.license     = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
