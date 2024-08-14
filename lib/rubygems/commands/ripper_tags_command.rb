@@ -22,9 +22,7 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
     else
       Gem.source_index.gems.values
     end.each do |spec|
-      self.class.index(spec, options[:reindex], options[:emacs]) do |message|
-        say message
-      end
+      self.class.index(spec, ui, options[:reindex], options[:emacs], options[:debug])
     end
   rescue Exception => e
     if options[:debug] || ENV['RIPPER_TAGS_DEBUG']
@@ -34,7 +32,7 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
     raise e
   end
 
-  def self.index(spec, reindex, emacs)
+  def self.index(spec, ui, reindex, emacs, debug)
     if emacs
       tag_filename = 'TAGS'
       format = "emacs"
@@ -43,27 +41,35 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
       format = "vim"
     end
 
-    return unless File.directory?(spec.full_gem_path) and File.writable?(File.join(spec.full_gem_path, tag_filename))
+    return unless File.directory?(spec.full_gem_path)
+    tag_file = File.join(spec.full_gem_path, tag_filename)
 
-    Dir.chdir(spec.full_gem_path) do
-      if (!File.directory?(tag_filename) && reindex) || (!File.file?(tag_filename) && !File.directory?(tag_filename))
-        yield "Ripper is generating ctags for #{spec.full_name}" if block_given?
-        riopt = RipperTags.default_options
-        riopt.tag_file_name = "./#{tag_filename}"
-        riopt.format = format
-        riopt.recursive = true
-        riopt.force = true
-        RipperTags.run riopt
+    if (!File.directory?(tag_filename) && reindex) || (!File.file?(tag_filename) && !File.directory?(tag_filename))
+      ui.say "Ripper is generating ctags for #{spec.full_name}"
+      riopt = RipperTags.default_options
+      riopt.tag_relative = "always"
+      riopt.tag_file_name = tag_file
+      riopt.format = format
+      riopt.recursive = true
+      riopt.force = true
+      riopt.files = [spec.full_gem_path]
+      RipperTags.run riopt
+    end
+
+    target = 'lib/bundler/cli.rb'
+    if File.writable?(target) && !File.read(target).include?('load_plugins')
+      ui.say "Injecting gem-ripper-tags into #{spec.full_name}"
+      File.open(target, 'a') do |f|
+        f.write "\nGem.load_plugins rescue nil\n"
       end
-
-      target = 'lib/bundler/cli.rb'
-      if File.writable?(target) && !File.read(target).include?('load_plugins')
-        yield "Injecting gem-ripper-tags into #{spec.full_name}" if block_given?
-        File.open(target, 'a') do |f|
-          f.write "\nGem.load_plugins rescue nil\n"
-        end
-      end
-
+    end
+  rescue Errno::EACCES
+    ui.say "Ripper cannot write to #{tag_file}"
+  rescue => e
+    raise unless ui
+    ui.say "Failed processing ctags for #{spec.full_name} (#{e.class})"
+    if debug
+      ui.say e
     end
   end
 end
