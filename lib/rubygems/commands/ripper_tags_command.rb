@@ -35,8 +35,6 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
   end
 
   def self.index(spec, reindex, emacs)
-    return unless File.directory?(spec.full_gem_path)
-
     if emacs
       tag_filename = 'TAGS'
       format = "emacs"
@@ -44,6 +42,8 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
       tag_filename = 'tags'
       format = "vim"
     end
+
+    return unless File.directory?(spec.full_gem_path) and File.writable?(File.join(spec.full_gem_path, tag_filename))
 
     Dir.chdir(spec.full_gem_path) do
       if (!File.directory?(tag_filename) && reindex) || (!File.file?(tag_filename) && !File.directory?(tag_filename))
