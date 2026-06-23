@@ -54,8 +54,22 @@ Regeneration
 ------------
 
 If you want to regenerate all tagfiles from scratch, use:
-    
+
     gem ripper_tags --reindex
+
+Testing
+-------
+
+To test the gem locally:
+
+    ./test.sh
+
+To test with Emacs TAGS format:
+
+    RIPPER_TAGS_EMACS=1 ./test.sh
+
+The test suite will build, install the gem, and verify that tags are generated
+correctly for popular gems.
 
 Emacs support
 -------------
