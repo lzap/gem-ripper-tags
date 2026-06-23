@@ -1,6 +1,8 @@
 RubyGems Automatic Ctags Generator
 ==================================
 
+[![CI](https://github.com/lzap/gem-ripper-tags/actions/workflows/ci.yml/badge.svg)](https://github.com/lzap/gem-ripper-tags/actions/workflows/ci.yml)
+
 If you do like Vim and Ctags like I or [Tim Pope][] do, you maybe appreciate
 automatic generation of ctags for each installed gem. This small project is
 based on Tim's [gem-ctags][], but the main difference is it does *not* use
