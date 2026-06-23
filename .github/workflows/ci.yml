@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: Ruby ${{ matrix.ruby }} - ${{ matrix.tags-format }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ['3.1', '3.2', '3.3', '3.4']
+        tags-format: ['vim', 'emacs']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Display versions
+        run: |
+          ruby --version
+          gem --version
+
+      - name: Run test suite (Vim tags)
+        if: matrix.tags-format == 'vim'
+        run: ./test.sh
+
+      - name: Run test suite (Emacs TAGS)
+        if: matrix.tags-format == 'emacs'
+        env:
+          RIPPER_TAGS_EMACS: 1
+        run: ./test.sh
