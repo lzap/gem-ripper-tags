@@ -55,14 +55,6 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
       riopt.files = [spec.full_gem_path]
       RipperTags.run riopt
     end
-
-    target = 'lib/bundler/cli.rb'
-    if File.writable?(target) && !File.read(target).include?('load_plugins')
-      ui.say "Injecting gem-ripper-tags into #{spec.full_name}"
-      File.open(target, 'a') do |f|
-        f.write "\nGem.load_plugins rescue nil\n"
-      end
-    end
   rescue Errno::EACCES
     ui.say "Ripper cannot write to #{tag_file}"
   rescue => e
