@@ -17,11 +17,7 @@ class Gem::Commands::RipperTagsCommand < Gem::Command
   end
 
   def execute
-    if Gem::Specification.respond_to?(:each)
-      Gem::Specification
-    else
-      Gem.source_index.gems.values
-    end.each do |spec|
+    Gem::Specification.each do |spec|
       self.class.index(spec, ui, options[:reindex], options[:emacs], options[:debug])
     end
   rescue Exception => e
