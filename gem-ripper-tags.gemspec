@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "gem-ripper-tags"
-  s.version     = "1.2.1"
+  s.version     = "1.2.2"
   s.authors     = ["Tim Pope", "Lukas Zapletal"]
   s.email       = ["code@tpop"+'e.net', "lzap+rpm@red"+'hat.com']
   s.homepage    = "https://github.com/lzap/gem-ripper-tags"

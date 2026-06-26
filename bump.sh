@@ -34,16 +34,22 @@ fi
 
 echo "Version updated successfully in $GEMSPEC_FILE"
 
-# Create git tag
+# Commit the version change
+echo "Committing version change..."
+git add "$GEMSPEC_FILE"
+git commit -m "chore: bump version to $NEW_VERSION"
+
+# Create git tag on the new commit
 echo "Creating git tag $NEW_VERSION..."
 git tag -a "$NEW_VERSION" -m "Release version $NEW_VERSION"
 
 echo ""
 echo "✓ Version bumped to $NEW_VERSION"
+echo "✓ Changes committed"
 echo "✓ Git tag $NEW_VERSION created"
 echo ""
 echo "Next steps:"
 echo "  1. Review changes: git show $NEW_VERSION"
-echo "  2. Push tag: git push origin $NEW_VERSION"
+echo "  2. Push commit and tag: git push && git push origin $NEW_VERSION"
 echo "  3. Build gem: gem build $GEMSPEC_FILE"
 echo "  4. Publish: gem push gem-ripper-tags-$NEW_VERSION.gem"
