@@ -13,7 +13,7 @@ Upstream site is at: https://github.com/lzap/gem-ripper-tags
 Usage
 -----
 
-Install the thing (only Ruby 1.9+):
+Install the gem (requires Ruby 2.0+, tested on Ruby 3.1-3.4):
 
     gem install gem-ripper-tags
 
@@ -28,9 +28,6 @@ Anytime you install a gem now, tags will be automatically created.
 If you're using RVM, I recommend extending your global gemset by adding
 `gem-ripper-tags` to `~/.rvm/gemsets/global.gems`.  Put it at the top so the
 gems below it will be indexed.
-
-You can use the gem even with 1.8 gemsets, but since Ruby 1.8 is not
-supported, it will (silently) not register the gem hook.
 
 Motivation
 ----------
